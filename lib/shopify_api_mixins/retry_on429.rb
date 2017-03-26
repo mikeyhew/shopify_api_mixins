@@ -1,5 +1,7 @@
 module ApiConnection::RetryOn429
-  extend ActiveSupport::Concern
+  class << self
+    attr_accessor :max_retries, :min_wait
+  end
 
   def request(*)
     with_retrial_on_429 do
@@ -10,9 +12,6 @@ module ApiConnection::RetryOn429
   private
 
   def with_retrial_on_429
-    max_retries = 5
-
-    min_wait = 2
 
     max_retries.times do
       begin
@@ -20,7 +19,7 @@ module ApiConnection::RetryOn429
       rescue ActiveResource::ClientError => e
         case code = e.response.code.to_i
         when 429
-          wait_time = e.response['Retry-After'.freeze].to_i
+          wait_time = e.response['Retry-After'].to_i
           wait_time = min_wait if wait_time < min_wait
           logger.info "Got a 429, will retry in #{wait_time} seconds"
           sleep(wait_time)
@@ -30,6 +29,7 @@ module ApiConnection::RetryOn429
         end
       end
     end
+
     yield
   end
 end

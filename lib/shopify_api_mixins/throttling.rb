@@ -1,25 +1,17 @@
 module ApiConnection::Throttling
-  extend ActiveSupport::Concern
 
-  included do
-      class_attribute :leak_rate
-      self.leak_rate = 2 # 2 per second
-
-      class_attribute :call_limit_header
-      self.call_limit_header = 'X-Shopify-Shop-Api-Call-Limit'
-
-      class_attribute :min_call_buffer
-      self.min_call_buffer = 5
+  class << self
+    attr_accessor :leak_rate, :call_limit_header, :max_calls
   end
 
   def handle_response(response)
     super.tap do
       if response.header[call_limit_header]
         num_calls, limit = response.header[call_limit_header].split('/').map(&:to_i)
-        if limit - num_calls < min_call_buffer
-          @wait_until = Time.now + ((num_calls + min_call_buffer - limit).to_f/leak_rate).seconds
+        if num_calls >= Throttling.max_calls
+          @wait_until = Time.now + ((num_calls - Throttling.max_calls + 1).to_f/Throttling.leak_rate).seconds
         end
-        logger.debug("API Calls used: #{num_calls}/#{limit}")
+        logger.debug("API Calls used: #{num_calls}/#{Throttling.max_calls}")
       end
     end
   end
