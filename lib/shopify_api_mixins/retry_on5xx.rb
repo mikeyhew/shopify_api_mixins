@@ -1,4 +1,4 @@
-class ApiConnection < ShopifyAPI::Connection
+module ShopifyApiMixins
   module RetryOn5xx
     class << self
       attr_accessor :max_wait, :backoff_multiplier, :initial_wait

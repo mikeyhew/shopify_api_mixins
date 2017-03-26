@@ -5,7 +5,9 @@ class ShopifyApiMixinsTest < Minitest::Test
     refute_nil ::ShopifyApiMixins::VERSION
   end
 
-  def test_it_does_something_useful
-    assert false
+  def test_theres_no_errors
+    ::ShopifyAPI::Connection.retry_on_429
+    ::ShopifyAPI::Connection.retry_on_5xx
+    ::ShopifyAPI::Connection.throttle
   end
 end
