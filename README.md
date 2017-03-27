@@ -1,12 +1,12 @@
 # Shopify Api Mixins
 
-Useful mixins for working with the shopify_api gem.
+Useful mixins for working with the `shopify_api` gem.
 
 ## Dependencies
 
-You need to have a recent-enough version of ActiveResource, with support for the `ActiveResource::Base.connection_class` class_variable. At the time of writing, there are no releases on rubygems that support it yet, and you need to use the master branch on GitHub (rails/activeresource).
+You need to have a recent-enough version of `activeresource`, with support for the `ActiveResource::Base.connection_class` class_variable. At the time of writing, there are no releases on rubygems that support it yet, and you need to use the master branch on GitHub (rails/activeresource). If you have an old version of activeresource that doesn't have `connection_class`, then this gem will raise a runtime error when it is `required`.
 
-For the `shopify_api` gem, you'll want as new of a version as possible; or at least version 4.1.
+For the `shopify_api` gem, you'll want as new of a version as possible; or at least version 4.3.1.
 
 ## Installation
 
@@ -26,27 +26,14 @@ Or install it yourself as:
 
 ## Usage
 
-You can just prepend the mixins to `ShopifyAPI::Connection`:
+This gem adds a few class methods to `ShopifyAPI::Connection`. Use them like so:
 
 ```ruby
-    ShopifyAPI::Connection.prepend ShopifyApiMixins::RetryOn429
-    ShopifyAPI::Connection.prepend ShopifyApiMixins::RetryOn5xx
-    ShopifyAPI::Connection.prepend ShopifyApiMixins::Throttling
+ShopifyAPI::Connection.retry_on_429 max_retries: 5, min_wait: 2.seconds
+ShopifyAPI::Connection.retry_on_5xx max_wait: 15.minutes
 ```
 
-Or, create and use your own Connection class
-
-```ruby
-    class ApiConnection < ShopifyAPI::Connection
-        include ShopifyApiMixins::RetryOn429
-        include ShopifyApiMixins::RetryOn5xx
-        include ShopifyApiMixins::Throttling
-    end
-
-    ShopifyAPI::Base.connection_class = ApiConnection
-```
-
-If you're outside of rails' auto-loading environment, you may also need to throw in a few `require` statements.
+If you are outside of the rails environment and get this error, ``NoMethodError: undefined method `retry_on_429' for ShopifyAPI::Connection:Class``, you need to `require 'shopify_api_mixins'`.
 
 ## Development
 
@@ -62,4 +49,3 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/mikeyh
 ## License
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
-
