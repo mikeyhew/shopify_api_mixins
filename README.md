@@ -33,7 +33,7 @@ ShopifyAPI::Connection.retry_on_429 max_retries: 5, min_wait: 2.seconds
 ShopifyAPI::Connection.retry_on_5xx max_wait: 15.minutes
 ```
 
-If you are outside of the rails environment and get this error, ``NoMethodError: undefined method `retry_on_429' for ShopifyAPI::Connection:Class``, you need to `require 'shopify_api_mixins'`.
+If you are outside of the rails environment and get ``NoMethodError: undefined method `retry_on_429' for ShopifyAPI::Connection:Class``, you need to `require 'shopify_api_mixins'`.
 
 ## Development
 
@@ -44,7 +44,6 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/mikeyhew/shopify_api_mixins.
-
 
 ## License
 
