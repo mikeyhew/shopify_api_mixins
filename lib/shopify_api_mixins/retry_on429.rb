@@ -14,14 +14,14 @@ module ShopifyApiMixins
 
     def with_retrial_on_429
 
-      max_retries.times do
+      RetryOn429.max_retries.times do
         begin
           return yield
         rescue ActiveResource::ClientError => e
           case code = e.response.code.to_i
           when 429
             wait_time = e.response['Retry-After'].to_i
-            wait_time = min_wait if wait_time < min_wait
+            wait_time = min_wait if wait_time < RetryOn429.min_wait
             logger.info "Got a 429, will retry in #{wait_time} seconds"
             sleep(wait_time)
             next
