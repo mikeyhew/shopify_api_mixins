@@ -27,7 +27,7 @@ module ShopifyApiMixins
             raise
           end
           code = e.response.code.to_i
-          logger.info "Got a #{code}, will sleep for #{delay} seconds and retry"
+          logger.warn "Got a #{code}, will sleep for #{delay} seconds and retry"
           sleep(delay)
           retries += 1
           delay *= RetryOn5xx.backoff_multiplier
