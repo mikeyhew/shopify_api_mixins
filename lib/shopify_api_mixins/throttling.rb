@@ -1,6 +1,5 @@
 module ShopifyApiMixins
   module Throttling
-
     class << self
       attr_accessor :leak_rate, :call_limit_header, :max_calls
     end
