@@ -5,4 +5,6 @@ gemspec
 
 gem 'activeresource', git: 'https://github.com/mikeyhew/activeresource', branch: 'connection_logger'
 
+gem 'pry'
+gem 'pry-byebug'
 gem 'dotenv'
