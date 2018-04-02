@@ -1,0 +1,17 @@
+#!/usr/bin/env ruby
+
+require 'bundler/setup'
+require 'shopify_api_mixins'
+require 'dotenv/load'
+
+ShopifyAPI::Base.site = ENV.fetch('TEST_SHOP_URL')
+ShopifyAPI::Connection.retry_on_429 max_retries: 5, min_wait: 2.seconds
+
+logger = Logger.new(STDOUT)
+logger.level = Logger::INFO
+
+ActiveResource::Base.logger = logger
+
+loop do
+  ShopifyAPI::Product.all params: {limit: 1}
+end

@@ -13,7 +13,6 @@ module ShopifyApiMixins
     private
 
     def with_retrial_on_429
-
       RetryOn429.max_retries.times do
         begin
           return yield

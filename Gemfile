@@ -4,3 +4,9 @@ source 'https://rubygems.org'
 gemspec
 
 gem 'activeresource', git: 'https://github.com/rails/activeresource'
+
+gem 'pry'
+gem 'pry-byebug'
+gem 'dotenv'
+gem 'rake'
+gem 'minitest'
