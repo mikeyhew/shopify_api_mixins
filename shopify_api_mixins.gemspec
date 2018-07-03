@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["michael@michaelhewson.ca"]
 
   spec.summary       = %q{Useful mixins for working with the shopify_api gem}
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.homepage      = "https://github.com/mikeyhew/shopify_api_mixins"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
